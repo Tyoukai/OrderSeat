@@ -4,6 +4,8 @@
  ssm、redis、octo
  # 3、总体架构图
  ![Image text](https://github.com/Tyoukai/OrderSeat/blob/master/image/Framework.png)
+ 
+ 
  本项目为占座系统、图书管理系统请访问https://github.com/Winston-leon/SmartLibary
  
  

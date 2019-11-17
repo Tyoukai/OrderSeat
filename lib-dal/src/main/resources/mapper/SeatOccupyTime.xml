@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderseat.dal.dao.SeatOccupyTimeDao">
+
+    <!-- 添加占座记录 -->
+    <insert id="add" parameterType="com.orderseat.dal.bean.SeatOccupyTimeBean" keyProperty="id">
+        <![CDATA[
+            insert into
+            ssm_seat_occupy_time (
+                seat_id,
+                start_time,
+                end_time,
+                valid,
+                user_id
+            )
+            values (
+                #{ seatId },
+                #{ startTime },
+                #{ endTime },
+                #{ valid },
+                #{ userId }
+            )
+        ]]>
+    </insert>
+
+    <!-- 根据id查询 -->
+    <select id="queryById" resultType="com.orderseat.dal.bean.SeatOccupyTimeBean">
+        <![CDATA[
+            select  id,
+                    seat_id,
+                    start_time,
+                    end_time,
+                    valid,
+                    user_id
+            from  ssm_seat_occupy_time
+            where id = #{ id }
+                limit 1
+        ]]>
+    </select>
+
+    <!-- 根据id删除 -->
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            delete from ssm_seat_occupy_time where id = #{ id }
+        ]]>
+    </delete>
+
+    <!-- 根据id更新 -->
+    <update id="updateById" parameterType="com.orderseat.dal.bean.SeatOccupyTimeBean">
+        update ssm_seat_occupy_time set
+        <if test="seatId != null and seatId != ''">
+            seat_id = #{ seatId },
+        </if>
+        <if test="startTime != null and startTime != ''">
+            start_time = #{ startTime },
+        </if>
+        <if test="endTime != null and endTime != ''">
+            end_time = #{ endTime },
+        </if>
+        <if test="valid != null and valid != ''">
+            valid = #{ valid },
+        </if>
+        <if test="userId != null and userId != ''">
+            user_id = #{ userId },
+        </if>
+        id = #{ id }
+        where id = #{ id }
+    </update>
+
+    <!-- 条件查询 -->
+    <select id="search" resultType="com.orderseat.dal.bean.SeatOccupyTimeBean">
+        <![CDATA[
+            select  id,
+                    seat_id,
+                    start_time,
+                    end_time,
+                    valid,
+                    user_id
+            from  ssm_seat_occupy_time
+        ]]>
+        <include refid="search_where"/>
+        <if test="limit > 0">
+            limit #{ start }, #{ limit }
+        </if>
+    </select>
+
+    <!-- 条件统计 -->
+    <select id="count" resultType="long">
+        <![CDATA[
+            select count(1)
+            from  ssm_seat_occupy_time
+        ]]>
+        <include refid="search_where"/>
+    </select>
+
+    <sql id="search_where">
+        <where>
+            <if test="id != null and id != ''">
+                id = #{ id } and
+            </if>
+            <if test="seatId != null and seatId != ''">
+                seat_id = #{ seatId } and
+            </if>
+            <if test="startTime != null and startTime != ''">
+                start_time = #{ startTime } and
+            </if>
+            <if test="endTime != null and endTime != ''">
+                end_time = #{ endTime } and
+            </if>
+            <if test="valid != null and valid != ''">
+                valid = #{ valid } and
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{ userId } and
+            </if>
+            1 = 1
+        </where>
+    </sql>
+
+</mapper>

@@ -48,6 +48,7 @@
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>testCompile</goal>
+
                         </goals>
                     </execution>
                 </executions>

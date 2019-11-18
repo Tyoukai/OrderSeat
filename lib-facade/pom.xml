@@ -13,5 +13,47 @@
     <artifactId>lib-facade</artifactId>
     <version>${lib.facade.version}</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.thrift.tools</groupId>
+                <artifactId>maven-thrift-plugin</artifactId>
+                <version>0.1.11</version>
+                <configuration>
+                    <!-- thrift编译器位置 -->
+                    <thriftExecutable>/usr/local/Cellar/thrift/0.12.0/bin/thrift</thriftExecutable>
+                    <!-- thrift文件位置 -->
+                    <thriftSourceRoot>src/main/thrift</thriftSourceRoot>
+                    <!-- thrift生成文件位置 -->
+                    <outputDirectory>src/main/java</outputDirectory>
+                    <generator>java</generator>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>thrift-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>thrift-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

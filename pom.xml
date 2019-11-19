@@ -27,6 +27,7 @@
         <lib.dal.version>1.0</lib.dal.version>
         <lib.facade.version>1.0</lib.facade.version>
         <lib.service.version>1.0</lib.service.version>
+        <lib.starter.version>1.0</lib.starter.version>
     </properties>
 
     <dependencyManagement>

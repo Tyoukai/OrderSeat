@@ -1,4 +1,4 @@
-namespace com.orderseat.facade.dto
+namespace java com.orderseat.facade.dto
 
 struct OrderSeatDto {
     1: required string id;           // 座位的id

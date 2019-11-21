@@ -13,5 +13,13 @@
     <artifactId>lib-service</artifactId>
     <version>${lib.service.version}</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-facade</artifactId>
+            <version>${lib.facade.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

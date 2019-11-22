@@ -19,6 +19,11 @@
             <artifactId>lib-facade</artifactId>
             <version>${lib.facade.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.meituan.octo</groupId>
+            <artifactId>dorado</artifactId>
+        </dependency>
     </dependencies>
 
 

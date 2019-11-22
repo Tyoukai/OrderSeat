@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 占座服务 -->
+    <bean id="orderSeatServiceProcessor" class="com.orderseat.service.facade.OrderSeatServiceImpl"/>
+    <bean id="orderSeatServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
+        <property name="serviceInterface" value="com.orderseat.facade.OrderSeatService"/>
+        <property name="serviceImpl" ref="orderSeatServiceProcessor"/>
+    </bean>
+
+    <!-- 座位查询服务 -->
+    <bean id="seatInfoServiceProcessor" class="com.orderseat.service.facade.SeatInfoServiceImpl"/>
+    <bean id="systemInfoServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
+        <property name="serviceInterface" value="com.orderseat.facade.OrderSeatService"/>
+        <property name="serviceImpl" ref="seatInfoServiceProcessor"/>
+    </bean>
+</beans>

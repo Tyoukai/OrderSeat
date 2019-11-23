@@ -2,6 +2,7 @@ package com.orderseat.dal.model;
 
 import com.orderseat.common.dal.BaseModel;
 import com.orderseat.common.enums.SeatTypeEnum;
+import com.orderseat.common.utils.anno.IgnoreProperties;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ public class SeatModel extends BaseModel {
 
     private String floorId;
 
+    @IgnoreProperties
     private SeatTypeEnum seatTypeEnum;
 
     private String desc;

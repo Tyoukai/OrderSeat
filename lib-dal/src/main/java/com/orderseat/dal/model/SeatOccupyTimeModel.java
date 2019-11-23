@@ -2,6 +2,7 @@ package com.orderseat.dal.model;
 
 import com.orderseat.common.dal.BaseModel;
 import com.orderseat.common.enums.ValidEnum;
+import com.orderseat.common.utils.anno.IgnoreProperties;
 
 import java.util.Date;
 
@@ -20,6 +21,7 @@ public class SeatOccupyTimeModel extends BaseModel {
 
     private Date endTime;
 
+    @IgnoreProperties
     private ValidEnum valid;
 
     public String getId() {

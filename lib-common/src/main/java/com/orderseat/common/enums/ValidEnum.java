@@ -1,5 +1,7 @@
 package com.orderseat.common.enums;
 
+import org.apache.commons.lang3.StringUtils;
+
 public enum ValidEnum {
     /**
      * 有效
@@ -35,5 +37,18 @@ public enum ValidEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public static ValidEnum getEnumByCode(String code) {
+        if (StringUtils.isBlank(code)) {
+            return null;
+        }
+
+        for (ValidEnum validEnum : values()) {
+            if (StringUtils.equals(validEnum.getCode(), code)) {
+                return validEnum;
+            }
+        }
+        return null;
     }
 }

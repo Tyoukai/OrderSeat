@@ -1,7 +1,8 @@
 package com.orderseat.common.dal;
 
+import com.orderseat.common.utils.system.QueryParams;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author: tyoukai
@@ -42,17 +43,17 @@ public interface BaseDao<B extends BaseBean> {
     /**
      * 条件查询
      *
-     * @param params
+     * @param queryParams
      * @return
      */
-    List<B> search(Map<String, Object> params);
+    List<B> search(QueryParams queryParams);
 
     /**
      * 统计
      *
-     * @param params
+     * @param queryParams
      * @return
      */
-    long count(Map<String, Object> params);
+    long count(QueryParams queryParams);
 
 }

@@ -1,5 +1,6 @@
 package com.orderseat.dal.model;
 
+import com.orderseat.common.dal.BaseModel;
 import com.orderseat.common.enums.ValidEnum;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  * @description: 占座记录模型类
  * @version: v1.0
  */
-public class SeatOccupyTimeModel {
+public class SeatOccupyTimeModel extends BaseModel {
     private String id;
 
     private String seatId;

@@ -21,6 +21,18 @@
         </dependency>
 
         <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-common</artifactId>
+            <version>${lib.common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-dal</artifactId>
+            <version>${lib.dal.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.meituan.octo</groupId>
             <artifactId>dorado</artifactId>
         </dependency>

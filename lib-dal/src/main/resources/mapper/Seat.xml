@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderseat.dal.dao.SeatDao">
+
+    <!-- 添加占座记录 -->
+    <insert id="add" parameterType="com.orderseat.dal.bean.SeatBean" keyProperty="id">
+        <![CDATA[
+            insert into
+            ssm_seat (
+                id,
+                building_id,
+                floor_id,
+                seat_type,
+                desc,
+                gmt_create,
+                gmt_modified
+            )
+            values (
+                #{ id },
+                #{ buildingId },
+                #{ floorId },
+                #{ seatType },
+                #{ desc },
+                now(),
+                now()
+            )
+        ]]>
+    </insert>
+
+    <!-- 根据id查询 -->
+    <select id="queryById" resultType="com.orderseat.dal.bean.SeatBean">
+        <![CDATA[
+            select  id,
+                    building_id,
+                    floor_id,
+                    seat_type,
+                    desc,
+                    gmt_create,
+                    gmt_modified
+            from  ssm_seat
+            where id = #{ id }
+                limit 1
+        ]]>
+    </select>
+
+    <!-- 根据id删除 -->
+    <delete id="deleteById" parameterType="String">
+        <![CDATA[
+            delete from ssm_seat where id = #{ id }
+        ]]>
+    </delete>
+
+    <!-- 根据id更新 -->
+    <update id="updateById" parameterType="com.orderseat.dal.bean.SeatBean">
+        update ssm_seat set
+        <if test="buildingId != null and buildingId != ''">
+            building_id = #{ buildingId },
+        </if>
+        <if test="floorId != null and floorId != ''">
+            floor_id = #{ floorId },
+        </if>
+        <if test="seatType != null and seatType != ''">
+            seat_type = #{ seatType },
+        </if>
+        <if test="desc != null and desc != ''">
+            desc = #{ desc },
+        </if>
+        gmt_modified = now()
+        where id = #{ id }
+    </update>
+
+    <!-- 条件查询 -->
+    <select id="search" resultType="com.orderseat.dal.bean.SeatBean">
+        <![CDATA[
+            select  id,
+                    building_id,
+                    floor_id,
+                    seat_type,
+                    desc,
+                    gmt_create,
+                    gmt_modified
+            from  ssm_seat
+        ]]>
+        <include refid="search_where"/>
+        <if test="limit > 0">
+            limit #{ start }, #{ limit }
+        </if>
+    </select>
+
+    <!-- 条件统计 -->
+    <select id="count" resultType="long">
+        <![CDATA[
+            select count(1)
+            from  ssm_seat
+        ]]>
+        <include refid="search_where"/>
+    </select>
+
+    <sql id="search_where">
+        <where>
+            <if test="id != null and id != ''">
+                id = #{ id } and
+            </if>
+            <if test="buildingId != null and buildingId != ''">
+                building_id = #{ buildingId } and
+            </if>
+            <if test="floorId != null and floorId != ''">
+                floor_id = #{ floorId } and
+            </if>
+            <if test="seatType != null and seatType != ''">
+                seat_type = #{ seatType } and
+            </if>
+            1 = 1
+        </where>
+    </sql>
+
+</mapper>

@@ -1,23 +1,18 @@
-package com.orderseat.dal.bean;
+package com.orderseat.dal.model;
 
-import com.orderseat.common.dal.BaseBean;
+import com.orderseat.common.dal.BaseModel;
+import com.orderseat.common.enums.SeatTypeEnum;
 
 import java.util.Date;
 
-/**
- * @author: zkw
- * @date: 2019-11-17
- * @description: 座位类
- * @version: v1.0
- */
-public class SeatBean extends BaseBean {
+public class SeatModel extends BaseModel {
     private String id;
 
     private String buildingId;
 
     private String floorId;
 
-    private int seatType;
+    private SeatTypeEnum seatTypeEnum;
 
     private String desc;
 
@@ -49,12 +44,12 @@ public class SeatBean extends BaseBean {
         this.floorId = floorId;
     }
 
-    public int getSeatType() {
-        return seatType;
+    public SeatTypeEnum getSeatTypeEnum() {
+        return seatTypeEnum;
     }
 
-    public void setSeatType(int seatType) {
-        this.seatType = seatType;
+    public void setSeatTypeEnum(SeatTypeEnum seatTypeEnum) {
+        this.seatTypeEnum = seatTypeEnum;
     }
 
     public String getDesc() {

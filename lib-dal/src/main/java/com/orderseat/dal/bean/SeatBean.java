@@ -17,7 +17,7 @@ public class SeatBean extends BaseBean {
 
     private String floorId;
 
-    private int seatType;
+    private String seatType;
 
     private String desc;
 
@@ -49,11 +49,11 @@ public class SeatBean extends BaseBean {
         this.floorId = floorId;
     }
 
-    public int getSeatType() {
+    public String getSeatType() {
         return seatType;
     }
 
-    public void setSeatType(int seatType) {
+    public void setSeatType(String seatType) {
         this.seatType = seatType;
     }
 

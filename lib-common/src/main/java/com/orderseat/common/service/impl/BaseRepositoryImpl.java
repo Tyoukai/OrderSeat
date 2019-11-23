@@ -12,6 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @author: tyoukai
@@ -70,9 +71,9 @@ public abstract class BaseRepositoryImpl<B extends BaseBean, M extends BaseModel
         this.getDao().updateById(bean);
     }
 
-
-    public List search(QueryParams queryParams) {
-        return this.getDao().search(queryParams);
+    public List<M> search(QueryParams queryParams) {
+        List<B> list = this.getDao().search(queryParams);
+        return list.stream().map(this::covert2Model).collect(Collectors.toList());
     }
 
     public long count(QueryParams queryParams) {

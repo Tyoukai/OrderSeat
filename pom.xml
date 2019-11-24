@@ -14,6 +14,7 @@
         <module>lib-service</module>
         <module>lib-facade</module>
         <module>lib-dal</module>
+        <module>lib-redis</module>
     </modules>
 
     <properties>
@@ -28,6 +29,7 @@
         <lib.facade.version>1.0</lib.facade.version>
         <lib.service.version>1.0</lib.service.version>
         <lib.starter.version>1.0</lib.starter.version>
+        <lib.redis.version>1.0</lib.redis.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +58,20 @@
                 <artifactId>spring-test</artifactId>
                 <version>${org.springframework.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- spring.reids -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>2.2.1.RELEASE</version>
+            </dependency>
+
+            <!-- jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>3.1.0</version>
             </dependency>
 
             <!-- fastjson -->

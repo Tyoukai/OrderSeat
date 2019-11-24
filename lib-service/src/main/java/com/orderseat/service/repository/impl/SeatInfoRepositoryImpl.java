@@ -10,6 +10,12 @@ import com.orderseat.service.repository.SeatInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author: tyoukai
+ * @date: 2019-11-23 15:32
+ * @description: 座位仓储类实现
+ * @version: v1.0
+ */
 @Repository
 public class SeatInfoRepositoryImpl extends BaseRepositoryImpl<SeatBean, SeatModel> implements SeatInfoRepository {
 

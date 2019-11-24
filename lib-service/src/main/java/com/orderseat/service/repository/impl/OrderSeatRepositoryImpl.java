@@ -10,6 +10,12 @@ import com.orderseat.service.repository.OrderSeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author: tyoukai
+ * @date: 2019-11-23 15:32
+ * @description: 占座仓储类实现
+ * @version: v1.0
+ */
 @Repository
 public class OrderSeatRepositoryImpl extends BaseRepositoryImpl<SeatOccupyTimeBean, SeatOccupyTimeModel> implements OrderSeatRepository {
 

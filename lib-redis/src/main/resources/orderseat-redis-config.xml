@@ -11,7 +11,7 @@
                      http://www.springframework.org/schema/context
                      http://www.springframework.org/schema/context/spring-context-4.0.xsd ">
 
-    <context:property-placeholder location="classpath: redis.properties" />
+    <context:property-placeholder location="classpath*:redis.properties" />
 
     <!-- redis数据源 -->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -47,7 +47,7 @@
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
         </property>
         <property name="valueSerializer">
-            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
         </property>
         <property name="hashKeySerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />

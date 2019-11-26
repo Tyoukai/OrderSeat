@@ -43,7 +43,7 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
         OrderSeatResponse orderSeatResponse = new OrderSeatResponse();
         List<Result> resultList = new ArrayList<>();
         for (OrderSeatDto orderSeatDto : orderSeatDtoList) {
-            resultList.add(covert2Result(orderSeatDto, ORDER_SEAT_RESPONSE_STATUS_WAIT))
+            resultList.add(covert2Result(orderSeatDto, ORDER_SEAT_RESPONSE_STATUS_WAIT));
         }
         orderSeatResponse.setSeatResult(resultList);
         return orderSeatResponse;

@@ -33,8 +33,19 @@
         </dependency>
 
         <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-redis</artifactId>
+            <version>${lib.redis.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.meituan.octo</groupId>
             <artifactId>dorado</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
 

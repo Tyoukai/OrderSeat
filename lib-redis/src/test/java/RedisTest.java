@@ -1,6 +1,7 @@
 import com.orderseat.redis.service.RedisService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.alibaba.fastjson.JSONObject;
 
 public class RedisTest {
 
@@ -9,9 +10,13 @@ public class RedisTest {
 
         RedisService redisService = (RedisService) ac.getBean("redisService");
 
-        redisService.set("test2", "123");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", "1");
+        jsonObject.put("userId", "2");
 
-        System.out.println(redisService.get("key"));
+        redisService.set("orderseat-1", jsonObject.toString());
+
+        System.out.println(redisService.get("orderseat-1"));
 
     }
 }

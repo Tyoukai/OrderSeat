@@ -8,6 +8,8 @@ import com.orderseat.facade.request.OrderSeatRequest;
 import com.orderseat.facade.response.OrderSeatResponse;
 import com.orderseat.facade.response.Result;
 import com.orderseat.redis.service.RedisService;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,8 +38,14 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
         // 将请求数据放入redis的list中
         // list的命名方式为 固定前缀 + 座位的唯一id
         for (JSONObject jsonObject : requestList) {
-            String redisListName = COMMON.REDIS_LIST_NAME_PREFIX + jsonObject.getString("id");
-            redisService.lSet(redisListName, jsonObject.toString());
+            String startTime = jsonObject.getString("startTime");
+            String endTime = jsonObject.getString("endTime");
+
+            // ORDER_SEAT_LIST@_@!!201911270800@_@!!201911271000@_@!!1
+            // 规则  固定值@_@!!开始时间@_@!!结束时间@_@!!座位id
+            String redisListName = COMMON.REDIS_LIST_NAME_PREFIX + COMMON.REDIS_SEPARATOR + startTime +
+                    COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+            redisService.lPush(redisListName, jsonObject.toString());
         }
 
         OrderSeatResponse orderSeatResponse = new OrderSeatResponse();
@@ -53,7 +61,7 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", orderSeatDto.getId());
         jsonObject.put("startTime", orderSeatDto.getStartTime());
-        jsonObject.put("endTIme", orderSeatDto.getEndTime());
+        jsonObject.put("endTime", orderSeatDto.getEndTime());
         jsonObject.put("userId", orderSeatDto.getUserId());
         return jsonObject;
     }

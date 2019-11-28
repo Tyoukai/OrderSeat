@@ -21,6 +21,8 @@ public class SeatOccupyTimeModel extends BaseModel {
 
     private Date endTime;
 
+    private String userId;
+
     @IgnoreProperties
     private ValidEnum valid;
 
@@ -62,5 +64,13 @@ public class SeatOccupyTimeModel extends BaseModel {
 
     public void setValid(ValidEnum valid) {
         this.valid = valid;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

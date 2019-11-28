@@ -7,11 +7,17 @@ package com.orderseat.common.utils.system;
  * @version: v1.0
  */
 public class COMMON {
-    public static String REDIS_LIST_NAME_PREFIX = "orderseat-seatnum-";
+    public static String REDIS_LIST_NAME_PREFIX = "ORDER_SEAT_LIST";
+
+    public static String REDIS_SEAT_NAME_PREFIX = "SEAT_IN_DB";
+
+    public static String REDIS_SEPARATOR = "@_@!!";
 
     public static String ORDER_SEAT_RESPONSE_STATUS_SUCCESS = "0";
 
     public static String ORDER_SEAT_RESPONSE_STATUS_FAIL = "1";
 
     public static String ORDER_SEAT_RESPONSE_STATUS_WAIT = "2";
+
+    public static String ORDER_HOUR_FORMATE = "HH:00";
 }

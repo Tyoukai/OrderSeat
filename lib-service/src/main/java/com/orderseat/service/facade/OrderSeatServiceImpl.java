@@ -45,7 +45,7 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
             // 规则  固定值@_@!!开始时间@_@!!结束时间@_@!!座位id
             String redisListName = COMMON.REDIS_LIST_NAME_PREFIX + COMMON.REDIS_SEPARATOR + startTime +
                     COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
-            redisService.lPush(redisListName, jsonObject.toString());
+            redisService.rPush(redisListName, jsonObject.toString());
         }
 
         OrderSeatResponse orderSeatResponse = new OrderSeatResponse();

@@ -480,7 +480,7 @@ public class RedisService {
      * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
      * @return
      */
-    public Object lGetIndex(String key, long index) {
+    public Object lIndex(String key, long index) {
         try {
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
@@ -558,6 +558,26 @@ public class RedisService {
             if (time > 0) {
                 expire(key, time);
             }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 从右边插入数据
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean rPush(String key, Object value) {
+        if (StringUtils.isBlank(key)) {
+            return false;
+        }
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

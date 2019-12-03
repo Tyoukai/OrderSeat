@@ -77,7 +77,7 @@ public class SeatManageServiceImpl implements SeatManageService {
                 seatOccupyTimeModel.setValid(ValidEnum.TRUE);
                 orderSeatRepository.add(seatOccupyTimeModel);
 
-                redisService.set(seatKey, seatInfo, 10);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -103,6 +103,8 @@ public class SeatManageServiceImpl implements SeatManageService {
         while (StringUtils.isBlank(luckyGuy) && (System.currentTimeMillis() - sTime) < getTime) {
             int index = Random.getRandomNum(COMMON.REDIS_SCOPE);
             luckyGuy = (String) redisService.lIndex(key, index);
+            redisService.del(key);
+            redisService.set(key, luckyGuy, 10);
         }
         list.add(luckyGuy);
     }

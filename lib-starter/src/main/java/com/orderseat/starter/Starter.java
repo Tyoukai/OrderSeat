@@ -10,6 +10,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Starter {
     public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("orderseat-starter-config.xml");
+        new ClassPathXmlApplicationContext("orderseat-starter.xml");
     }
 }

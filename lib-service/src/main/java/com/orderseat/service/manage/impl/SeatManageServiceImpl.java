@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author: tyoukai
@@ -42,45 +44,42 @@ public class SeatManageServiceImpl implements SeatManageService {
     @Value("${redis.getTime}")
     private int getTime;
 
+    private static Set<String> keys = new CopyOnWriteArraySet<>();
 
     @Override
-    public List<String> getSeatFromRedis() {
+    public void getSeatFromRedis() {
         String redisListPattern = COMMON.REDIS_LIST_NAME_PREFIX + COMMON.REDIS_SEPARATOR;
-        Set<String> keys = redisService.keys(redisListPattern);
-        // 最终选出来的占座成功的座位列表
-        List<String> seatList = new ArrayList<>();
-
-        for (String key : keys) {
-            redisExecutorPool.submit(() -> realGetSeatFromRedis(key, seatList));
+        Set<String> currentKeys = redisService.keys(redisListPattern);
+        for (String key : currentKeys) {
+            if (! keys.contains(key)) {
+                redisExecutorPool.submit(() -> realGetSeatFromRedisAndPersistence(key));
+            }
         }
-        return seatList;
     }
 
     @Override
-    public void persistence(List<String> list) {
-        for (String seatInfo : list) {
-            if (StringUtils.isBlank(seatInfo)) {
-                continue;
-            }
-            JSONObject jsonObject = JSON.parseObject(seatInfo);
-            String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
-            if (StringUtils.isNotBlank((String) redisService.get(seatKey))) {
-                return;
-            }
+    public void persistence(String seatInfo) {
+        if (StringUtils.isBlank(seatInfo)) {
+            return;
+        }
+        JSONObject jsonObject = JSON.parseObject(seatInfo);
+        String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+        if (StringUtils.isNotBlank((String) redisService.get(seatKey))) {
+            return;
+        }
 
-            try {
-                SeatOccupyTimeModel seatOccupyTimeModel = new SeatOccupyTimeModel();
-                seatOccupyTimeModel.setSeatId(jsonObject.getString("id"));
-                seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("startTime"), "yyyyMMdd:HHmmss"));
-                seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("endTime"), "yyyyMMdd:HHmmss"));
-                seatOccupyTimeModel.setUserId(jsonObject.getString("userId"));
-                seatOccupyTimeModel.setValid(ValidEnum.TRUE);
-                orderSeatRepository.add(seatOccupyTimeModel);
+        try {
+            SeatOccupyTimeModel seatOccupyTimeModel = new SeatOccupyTimeModel();
+            seatOccupyTimeModel.setSeatId(jsonObject.getString("id"));
+            seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("startTime"), "yyyyMMdd:HHmmss"));
+            seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("endTime"), "yyyyMMdd:HHmmss"));
+            seatOccupyTimeModel.setUserId(jsonObject.getString("userId"));
+            seatOccupyTimeModel.setValid(ValidEnum.TRUE);
+            orderSeatRepository.add(seatOccupyTimeModel);
 
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -94,9 +93,8 @@ public class SeatManageServiceImpl implements SeatManageService {
      * 那线程池处理就会很慢
      *
      * @param key
-     * @param list
      */
-    private void realGetSeatFromRedis(String key, List<String> list) {
+    private void realGetSeatFromRedisAndPersistence(String key) {
         String luckyGuy = "";
         long sTime = System.currentTimeMillis();
         // 当取出的数据不为空，并且时间小于1s时
@@ -106,6 +104,7 @@ public class SeatManageServiceImpl implements SeatManageService {
             redisService.del(key);
             redisService.set(key, luckyGuy, 10);
         }
-        list.add(luckyGuy);
+        persistence(luckyGuy);
+        keys.remove(key);
     }
 }

@@ -15,11 +15,11 @@ public interface SeatManageService {
      *
      * @return
      */
-    List<String> getSeatFromRedis();
+    void getSeatFromRedis();
 
     /**
      * 持久化
      */
-    void persistence(List<String> list);
+    void persistence(String seatInfo);
 
 }

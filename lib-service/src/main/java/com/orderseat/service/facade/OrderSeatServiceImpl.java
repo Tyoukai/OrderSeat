@@ -8,16 +8,15 @@ import com.orderseat.facade.request.OrderSeatRequest;
 import com.orderseat.facade.response.OrderSeatResponse;
 import com.orderseat.facade.response.Result;
 import com.orderseat.redis.service.RedisService;
+import com.orderseat.service.observer.Observer;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Observer;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.orderseat.common.utils.system.COMMON.ORDER_SEAT_RESPONSE_STATUS_FAIL;
@@ -36,12 +35,7 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
     /**
      * 观察者们
      */
-    private List<Observer> observers;
-
-    @PostConstruct
-    public void init() {
-
-    }
+    public static Set<Observer> observers = new HashSet<>();
 
     @Override
     public OrderSeatResponse orderSeat(OrderSeatRequest request) throws TException {
@@ -68,6 +62,7 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
             } else {
                 redisService.rPush(redisListName, jsonObject.toString());
                 resultList.add(covert2Result(orderSeatDtoList.get(i), ORDER_SEAT_RESPONSE_STATUS_WAIT));
+                notifyAllObserver();
             }
         }
         orderSeatResponse.setSeatResult(resultList);
@@ -88,6 +83,15 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
         result.setOrderSeatDto(orderSeatDto);
         result.setStatus(status);
         return result;
+    }
+
+    /**
+     * 通知所有的观察者，处理请求
+     */
+    private void notifyAllObserver() {
+        for (Observer observer : observers) {
+            observer.process();
+        }
     }
 
 

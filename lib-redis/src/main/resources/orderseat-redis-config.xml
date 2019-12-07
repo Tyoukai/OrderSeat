@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-                     http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                     http://www.springframework.org/schema/aop
-                     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
                      http://www.springframework.org/schema/context
-                     http://www.springframework.org/schema/context/spring-context-4.0.xsd ">
+                     http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath*:redis.properties" />
+    <context:property-placeholder location="classpath*:*-config.properties" />
 
     <!-- redis数据源 -->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- 最大空闲数 -->
-        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxIdle" value="300" />
         <!-- 最大空连接数 -->
-        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="maxTotal" value="600" />
         <!-- 最大等待时间 -->
-        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <property name="maxWaitMillis" value="1000" />
         <!-- 返回连接时，检测连接是否成功 -->
-        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="testOnBorrow" value="true" />
+    </bean>
+
+    <bean id="password" class="org.springframework.data.redis.connection.RedisPassword">
+        <constructor-arg name="thePassword" value="" />
+    </bean>
+
+    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="hostName" value="106.15.195.195" />
+        <property name="port" value="6379" />
+        <property name="password" ref="password" />
     </bean>
 
     <!-- Spring-redis连接池管理工厂 -->
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <!-- IP地址 -->
-        <property name="hostName" value="${redis.host}" />
-        <!-- 端口号 -->
-        <property name="port" value="${redis.port}" />
-        <property name="password" value="${redis.password}" />
-        <!-- 超时时间 默认2000-->
-        <property name="timeout" value="${redis.timeout}" />
-        <!-- 连接池配置引用 -->
-        <property name="poolConfig" ref="poolConfig" />
-        <!-- usePool：是否使用连接池 -->
-        <property name="usePool" value="true"/>
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration" />
     </bean>
+
+    <!--Spring-redis连接池管理工厂-->
+    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
+        <!--&lt;!&ndash; IP地址 &ndash;&gt;-->
+        <!--<property name="hostName" value="106.15.195.195" />-->
+        <!--&lt;!&ndash; 端口号 &ndash;&gt;-->
+        <!--<property name="port" value="6379" />-->
+        <!--<property name="password" value="" />-->
+        <!--&lt;!&ndash; 超时时间 默认2000&ndash;&gt;-->
+        <!--<property name="timeout" value="1000" />-->
+        <!--&lt;!&ndash; 连接池配置引用 &ndash;&gt;-->
+        <!--<property name="poolConfig" ref="poolConfig" />-->
+        <!--&lt;!&ndash; usePool：是否使用连接池 &ndash;&gt;-->
+        <!--<property name="usePool" value="true"/>-->
+    <!--</bean>-->
 
     <!-- redis template definition -->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">

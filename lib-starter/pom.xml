@@ -23,6 +23,36 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-service</artifactId>
+            <version>${lib.service.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-redis</artifactId>
+            <version>${lib.redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-facade</artifactId>
+            <version>${lib.facade.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-dal</artifactId>
+            <version>${lib.dal.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>SmartLib</groupId>
+            <artifactId>lib-common</artifactId>
+            <version>${lib.common.version}</version>
+        </dependency>
     </dependencies>
 
 

@@ -17,9 +17,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -38,7 +35,7 @@ public class SeatManageServiceImpl implements SeatManageService {
     @Resource(name="redisExecutor")
     private ThreadPoolTaskExecutor redisExecutorPool;
 
-    @Autowired
+    @Resource(name = "OrderSeatRepositoryImpl")
     private OrderSeatRepository orderSeatRepository;
 
     @Value("${redis.getTime}")

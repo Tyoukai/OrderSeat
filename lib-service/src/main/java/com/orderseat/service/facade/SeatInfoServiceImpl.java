@@ -13,6 +13,7 @@ import org.apache.thrift.TException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * @version: v1.0
  */
 public class SeatInfoServiceImpl implements SeatInfoService.Iface {
-    @Autowired
+    @Resource(name = "SeatInfoRepositoryImpl")
     private SeatInfoRepository seatInfoRepository;
 
     @Override

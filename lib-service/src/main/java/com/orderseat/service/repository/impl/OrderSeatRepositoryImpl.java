@@ -8,7 +8,6 @@ import com.orderseat.dal.dao.SeatOccupyTimeDao;
 import com.orderseat.dal.model.SeatOccupyTimeModel;
 import com.orderseat.service.repository.OrderSeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author: tyoukai
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Repository;
  * @description: 占座仓储类实现
  * @version: v1.0
  */
-@Repository
 public class OrderSeatRepositoryImpl extends BaseRepositoryImpl<SeatOccupyTimeBean, SeatOccupyTimeModel> implements OrderSeatRepository {
 
     @Autowired

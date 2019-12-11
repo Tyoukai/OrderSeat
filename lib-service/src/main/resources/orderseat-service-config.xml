@@ -8,4 +8,7 @@
 
     <task:executor id="redisExecutor" pool-size="15" queue-capacity="300"/>
 
+    <bean id="SeatInfoRepositoryImpl" class="com.orderseat.service.repository.impl.SeatInfoRepositoryImpl" />
+    <bean id="OrderSeatRepositoryImpl" class="com.orderseat.service.repository.impl.OrderSeatRepositoryImpl" />
+
 </beans>

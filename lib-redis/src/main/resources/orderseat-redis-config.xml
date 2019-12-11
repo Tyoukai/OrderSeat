@@ -21,35 +21,20 @@
         <property name="testOnBorrow" value="true" />
     </bean>
 
-    <bean id="password" class="org.springframework.data.redis.connection.RedisPassword">
-        <constructor-arg name="thePassword" value="" />
-    </bean>
-
-    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
-        <property name="hostName" value="106.15.195.195" />
-        <property name="port" value="6379" />
-        <property name="password" ref="password" />
-    </bean>
-
-    <!-- Spring-redis连接池管理工厂 -->
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration" />
-    </bean>
-
     <!--Spring-redis连接池管理工厂-->
-    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
-        <!--&lt;!&ndash; IP地址 &ndash;&gt;-->
-        <!--<property name="hostName" value="106.15.195.195" />-->
-        <!--&lt;!&ndash; 端口号 &ndash;&gt;-->
-        <!--<property name="port" value="6379" />-->
-        <!--<property name="password" value="" />-->
-        <!--&lt;!&ndash; 超时时间 默认2000&ndash;&gt;-->
-        <!--<property name="timeout" value="1000" />-->
-        <!--&lt;!&ndash; 连接池配置引用 &ndash;&gt;-->
-        <!--<property name="poolConfig" ref="poolConfig" />-->
-        <!--&lt;!&ndash; usePool：是否使用连接池 &ndash;&gt;-->
-        <!--<property name="usePool" value="true"/>-->
-    <!--</bean>-->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <!-- IP地址 -->
+        <property name="hostName" value="106.15.195.195" />
+        <!-- 端口号 -->
+        <property name="port" value="6379" />
+        <property name="password" value="" />
+        <!-- 超时时间 默认2000-->
+        <property name="timeout" value="1000" />
+        <!-- 连接池配置引用 -->
+        <property name="poolConfig" ref="poolConfig" />
+        <!-- usePool：是否使用连接池 -->
+        <property name="usePool" value="true"/>
+    </bean>
 
     <!-- redis template definition -->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">

@@ -6,30 +6,44 @@
 
 
     <!-- 占座服务 -->
-    <bean id="orderSeatServiceProcessor" class="com.orderseat.service.facade.OrderSeatServiceImpl"/>
-    <bean id="orderSeatServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
+    <bean id="OrderSeatServiceImpl" class="com.orderseat.service.facade.OrderSeatServiceImpl"/>
+    <bean id="OrderSeatServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
         <property name="serviceInterface" value="com.orderseat.facade.OrderSeatService"/>
-        <property name="serviceImpl" ref="orderSeatServiceProcessor"/>
+        <property name="serviceImpl" ref="OrderSeatServiceImpl"/>
     </bean>
 
     <!-- 座位查询服务 -->
-    <bean id="seatInfoServiceProcessor" class="com.orderseat.service.facade.SeatInfoServiceImpl"/>
-    <bean id="systemInfoServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
+    <bean id="SeatInfoServiceImpl" class="com.orderseat.service.facade.SeatInfoServiceImpl"/>
+    <bean id="SeatInfoServiceConfig" class="com.meituan.dorado.config.service.ServiceConfig">
         <property name="serviceInterface" value="com.orderseat.facade.OrderSeatService"/>  <!-- 服务接口 -->
-        <property name="serviceImpl" ref="seatInfoServiceProcessor"/>                      <!-- 服务实现类 -->
+        <property name="serviceImpl" ref="SeatInfoServiceImpl"/>                      <!-- 服务实现类 -->
     </bean>
 
     <!-- 服务发布 -->
-    <bean id="orderSeatPublisher" class="com.meituan.dorado.config.service.spring.ServiceBean" destroy-method="destroy">
-        <property name="appkey" value="com.meituan.octo.dorado.server"/>      <!-- 服务appkey -->
+    <bean id="OrderSeatServicePublisher" class="com.meituan.dorado.config.service.spring.ServiceBean" destroy-method="destroy">
+        <property name="appkey" value="com.orderseat.service"/>      <!-- 服务appkey -->
         <property name="port" value="9001"/>                                  <!-- 服务端口号 -->
         <property name="registry" value="zookeeper://${zk.address}"/>         <!-- 服务注册 地址 -->
-        <!--<property name="serviceConfig" ref="helloServiceConfig"/>   &lt;!&ndash; 服务接口配置 &ndash;&gt;-->
+        <!--<property name="serviceConfig" ref="OrderSeatServiceConfig"/>   &lt;!&ndash; 服务接口配置 &ndash;&gt;-->
         <property name="serviceConfigList"> <!-- 单端口多服务 -->
             <list>
-                <ref bean="orderSeatServiceConfig" />
-                <ref bean="systemInfoServiceConfig" />
+                <ref bean="OrderSeatServiceConfig" />
+                <!--<ref bean="SeatInfoServiceConfig" />-->
             </list>
         </property>
     </bean>
+
+    <!--&lt;!&ndash; 服务发布 &ndash;&gt;-->
+    <!--<bean id="SeatInfoServicePublisher" class="com.meituan.dorado.config.service.spring.ServiceBean" destroy-method="destroy">-->
+        <!--<property name="appkey" value="com.seatinfo.service"/>      &lt;!&ndash; 服务appkey &ndash;&gt;-->
+        <!--<property name="port" value="9002"/>                                  &lt;!&ndash; 服务端口号 &ndash;&gt;-->
+        <!--<property name="registry" value="zookeeper://${zk.address}"/>         &lt;!&ndash; 服务注册 地址 &ndash;&gt;-->
+        <!--<property name="serviceConfig" ref="SeatInfoServiceConfig"/>   &lt;!&ndash; 服务接口配置 &ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="serviceConfigList"> &lt;!&ndash; 单端口多服务 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<list>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="orderSeatServiceConfig" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="seatInfoServiceConfig" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</list>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+    <!--</bean>-->
 </beans>

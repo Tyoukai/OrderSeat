@@ -49,6 +49,7 @@ public class SeatManageServiceImpl implements SeatManageService {
         Set<String> currentKeys = redisService.keys(redisListPattern);
         for (String key : currentKeys) {
             if (! keys.contains(key)) {
+                keys.add(key);
                 redisExecutorPool.submit(() -> realGetSeatFromRedisAndPersistence(key));
             }
         }
@@ -99,7 +100,9 @@ public class SeatManageServiceImpl implements SeatManageService {
             int index = Random.getRandomNum(COMMON.REDIS_SCOPE);
             luckyGuy = (String) redisService.lIndex(key, index);
             redisService.del(key);
-            redisService.set(key, luckyGuy, 10);
+            JSONObject jsonObject = JSON.parseObject(luckyGuy);
+            String seatKey = jsonObject.getString("id");
+            redisService.set(seatKey, luckyGuy, 10);
         }
         persistence(luckyGuy);
         keys.remove(key);

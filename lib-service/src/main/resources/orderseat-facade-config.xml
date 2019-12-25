@@ -25,14 +25,15 @@
     <bean id="OrderSeatServicePublisher" class="com.meituan.dorado.config.service.spring.ServiceBean" destroy-method="destroy">
         <property name="appkey" value="com.orderseat.service"/>      <!-- 服务appkey -->
         <property name="port" value="9001"/>                                  <!-- 服务端口号 -->
-        <property name="registry" value="zookeeper://${zk.address}"/>         <!-- 服务注册 地址 -->
-        <!--<property name="serviceConfig" ref="SeatInfoServiceConfig"/>   &lt;!&ndash; 服务接口配置 &ndash;&gt;-->
-        <property name="serviceConfigList"> <!-- 单端口多服务 -->
-            <list>
-                <ref bean="OrderSeatServiceConfig" />
-                <ref bean="SeatInfoServiceConfig" />
-            </list>
-        </property>
+        <!--<property name="registry" value="zookeeper://106.15.195.195:2181"/>         &lt;!&ndash; 服务注册 地址 &ndash;&gt;-->
+        <property name="registry" value="mock"/>
+        <property name="serviceConfig" ref="OrderSeatServiceConfig"/>   <!-- 服务接口配置 -->
+        <!--<property name="serviceConfigList"> &lt;!&ndash; 单端口多服务 &ndash;&gt;-->
+            <!--<list>-->
+                <!--<ref bean="OrderSeatServiceConfig" />-->
+                <!--<ref bean="SeatInfoServiceConfig" />-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
 
 </beans>

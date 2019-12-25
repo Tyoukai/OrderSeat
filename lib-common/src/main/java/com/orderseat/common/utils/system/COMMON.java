@@ -7,11 +7,23 @@ package com.orderseat.common.utils.system;
  * @version: v1.0
  */
 public class COMMON {
+
+    /**
+     * redis中list的前缀
+     */
     public static String REDIS_LIST_NAME_PREFIX = "ORDER_SEAT_LIST";
 
     public static String REDIS_SEAT_NAME_PREFIX = "SEAT_IN_DB";
 
+    /**
+     * redis分隔符
+     */
     public static String REDIS_SEPARATOR = "@_@!!";
+
+    /**
+     * redis中匹配key的通配符
+     */
+    public static String REDIS_WILDCARD = "*";
 
     public static String ORDER_SEAT_RESPONSE_STATUS_SUCCESS = "0";
 

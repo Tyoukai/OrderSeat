@@ -17,6 +17,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -38,14 +40,15 @@ public class SeatManageServiceImpl implements SeatManageService {
     @Resource(name = "OrderSeatRepositoryImpl")
     private OrderSeatRepository orderSeatRepository;
 
-    @Value("${redis.getTime}")
-    private int getTime;
+    @Value("${redis.timeScope}")
+    private int timeScope;
 
     private static Set<String> keys = new CopyOnWriteArraySet<>();
 
     @Override
     public void getSeatFromRedis() {
-        String redisListPattern = COMMON.REDIS_LIST_NAME_PREFIX + COMMON.REDIS_SEPARATOR;
+        // ORDER_SEAT_LIST@_@!!*
+        String redisListPattern = COMMON.REDIS_LIST_NAME_PREFIX + COMMON.REDIS_SEPARATOR + COMMON.REDIS_WILDCARD;
         Set<String> currentKeys = redisService.keys(redisListPattern);
         for (String key : currentKeys) {
             if (! keys.contains(key)) {
@@ -96,13 +99,27 @@ public class SeatManageServiceImpl implements SeatManageService {
         String luckyGuy = "";
         long sTime = System.currentTimeMillis();
         // 当取出的数据不为空，并且时间小于1s时
-        while (StringUtils.isBlank(luckyGuy) && (System.currentTimeMillis() - sTime) < getTime) {
-            int index = Random.getRandomNum(COMMON.REDIS_SCOPE);
+        while (StringUtils.isBlank(luckyGuy)) {
+            if ((System.currentTimeMillis() - sTime) < timeScope ) {
+                continue;
+            }
+            // 队列长度 > 20 从队列的前20个元素取数，不然从队列长度中取数
+            int size = redisService.lGetListSize(key) > COMMON.REDIS_SCOPE ? COMMON.REDIS_SCOPE : (int) redisService.lGetListSize(key);
+            int index = Random.getRandomNum(size);
             luckyGuy = (String) redisService.lIndex(key, index);
-            redisService.del(key);
+
             JSONObject jsonObject = JSON.parseObject(luckyGuy);
-            String seatKey = jsonObject.getString("id");
-            redisService.set(seatKey, luckyGuy, 10);
+            String startTime = jsonObject.getString("startTime");
+            String endTime = jsonObject.getString("endTime");
+            String seatKey = startTime + COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+            try {
+                Date endDate = DateUtils.parseDate(endTime, "yyyyMMddHHmmss");
+                long seconds = (endDate.getTime() - System.currentTimeMillis()) / 1000;
+                redisService.set(seatKey, luckyGuy, seconds);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            redisService.del(key);
         }
         persistence(luckyGuy);
         keys.remove(key);

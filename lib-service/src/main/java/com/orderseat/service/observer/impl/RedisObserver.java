@@ -4,7 +4,7 @@ import com.orderseat.service.facade.OrderSeatServiceImpl;
 import com.orderseat.service.manage.SeatManageService;
 import com.orderseat.service.observer.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  * @description: redis观察者实现类
  * @version: v1.0
  */
-@Service
+@Component
 public class RedisObserver implements Observer {
 
     @Autowired

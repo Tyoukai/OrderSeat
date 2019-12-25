@@ -13,6 +13,9 @@ public class COMMON {
      */
     public static String REDIS_LIST_NAME_PREFIX = "ORDER_SEAT_LIST";
 
+    /**
+     * redis中已经被占的座位前缀
+     */
     public static String REDIS_SEAT_NAME_PREFIX = "SEAT_IN_DB";
 
     /**

@@ -58,8 +58,9 @@ public class OrderSeatServiceImpl implements OrderSeatService.Iface {
                     COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
 
             // 座位被占后将座位信息放入redis中。
-            // 座位的key规则 开始时间@_@!!结束时间@_@!!座位id
-            String seatKey = startTime + COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+            // 座位的key规则 SEAT_IN_DB@_@!!开始时间@_@!!结束时间@_@!!座位id
+            String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + startTime +
+                    COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
             // 表示该座位已经被预定
             if (StringUtils.isNotBlank((String) redisService.get(seatKey))) {
                 resultList.add(covert2Result(orderSeatDtoList.get(i), ORDER_SEAT_RESPONSE_STATUS_FAIL));

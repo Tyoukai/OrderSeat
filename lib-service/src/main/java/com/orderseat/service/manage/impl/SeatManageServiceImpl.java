@@ -14,7 +14,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -28,7 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @description: 座位管理实现类
  * @version: v1.0
  */
-@Service
+@Component
 public class SeatManageServiceImpl implements SeatManageService {
 
     @Autowired
@@ -64,7 +64,8 @@ public class SeatManageServiceImpl implements SeatManageService {
             return;
         }
         JSONObject jsonObject = JSON.parseObject(seatInfo);
-        String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+        String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + jsonObject.getString("startTime") +
+                COMMON.REDIS_SEPARATOR + jsonObject.getString("endTime") + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
         if (StringUtils.isNotBlank((String) redisService.get(seatKey))) {
             return;
         }
@@ -111,9 +112,11 @@ public class SeatManageServiceImpl implements SeatManageService {
             JSONObject jsonObject = JSON.parseObject(luckyGuy);
             String startTime = jsonObject.getString("startTime");
             String endTime = jsonObject.getString("endTime");
-            String seatKey = startTime + COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
+            // redis中存放的key
+            String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + startTime +
+                    COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
             try {
-                Date endDate = DateUtils.parseDate(endTime, "yyyyMMddHHmmss");
+                Date endDate = DateUtils.parseDate(endTime, "yyyyMMddHHmm");
                 long seconds = (endDate.getTime() - System.currentTimeMillis()) / 1000;
                 redisService.set(seatKey, luckyGuy, seconds);
             } catch (ParseException e) {

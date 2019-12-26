@@ -34,7 +34,7 @@ public class COMMON {
 
     public static String ORDER_SEAT_RESPONSE_STATUS_WAIT = "2";
 
-    public static String ORDER_HOUR_FORMATE = "HH:00";
+    public static String ORDER_HOUR_FORMATE = "yyyyMMddHHmm";
 
     public static int REDIS_SCOPE = 20;
 }

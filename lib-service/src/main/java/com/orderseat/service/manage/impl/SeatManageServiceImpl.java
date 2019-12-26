@@ -73,13 +73,11 @@ public class SeatManageServiceImpl implements SeatManageService {
         try {
             SeatOccupyTimeModel seatOccupyTimeModel = new SeatOccupyTimeModel();
             seatOccupyTimeModel.setSeatId(jsonObject.getString("id"));
-            seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("startTime"), "yyyyMMdd:HHmmss"));
-            seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("endTime"), "yyyyMMdd:HHmmss"));
+            seatOccupyTimeModel.setStartTime(DateUtils.parseDate(jsonObject.getString("startTime"), COMMON.ORDER_HOUR_FORMATE));
+            seatOccupyTimeModel.setEndTime(DateUtils.parseDate(jsonObject.getString("endTime"), COMMON.ORDER_HOUR_FORMATE));
             seatOccupyTimeModel.setUserId(jsonObject.getString("userId"));
             seatOccupyTimeModel.setValid(ValidEnum.TRUE);
             orderSeatRepository.add(seatOccupyTimeModel);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,6 +107,9 @@ public class SeatManageServiceImpl implements SeatManageService {
             int index = Random.getRandomNum(size);
             luckyGuy = (String) redisService.lIndex(key, index);
 
+            // 持久化
+            persistence(luckyGuy);
+
             JSONObject jsonObject = JSON.parseObject(luckyGuy);
             String startTime = jsonObject.getString("startTime");
             String endTime = jsonObject.getString("endTime");
@@ -116,7 +117,7 @@ public class SeatManageServiceImpl implements SeatManageService {
             String seatKey = COMMON.REDIS_SEAT_NAME_PREFIX + COMMON.REDIS_SEPARATOR + startTime +
                     COMMON.REDIS_SEPARATOR + endTime + COMMON.REDIS_SEPARATOR + jsonObject.getString("id");
             try {
-                Date endDate = DateUtils.parseDate(endTime, "yyyyMMddHHmm");
+                Date endDate = DateUtils.parseDate(endTime, COMMON.ORDER_HOUR_FORMATE);
                 long seconds = (endDate.getTime() - System.currentTimeMillis()) / 1000;
                 redisService.set(seatKey, luckyGuy, seconds);
             } catch (ParseException e) {
@@ -124,7 +125,8 @@ public class SeatManageServiceImpl implements SeatManageService {
             }
             redisService.del(key);
         }
-        persistence(luckyGuy);
+
         keys.remove(key);
     }
+
 }

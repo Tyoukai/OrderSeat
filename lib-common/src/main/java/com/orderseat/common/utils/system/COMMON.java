@@ -37,4 +37,9 @@ public class COMMON {
     public static String ORDER_HOUR_FORMATE = "yyyyMMddHHmm";
 
     public static int REDIS_SCOPE = 20;
+
+    /**
+     * 普通座位类型
+     */
+    public static String SEAT_TYPE_COMMON = "1";
 }

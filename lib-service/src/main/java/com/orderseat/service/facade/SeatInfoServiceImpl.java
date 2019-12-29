@@ -1,5 +1,7 @@
 package com.orderseat.service.facade;
 
+import com.orderseat.common.enums.SeatTypeEnum;
+import com.orderseat.common.utils.system.COMMON;
 import com.orderseat.common.utils.system.QueryParams;
 import com.orderseat.dal.model.SeatModel;
 import com.orderseat.facade.SeatInfoService;
@@ -111,6 +113,11 @@ public class SeatInfoServiceImpl implements SeatInfoService.Iface {
     private  SeatModel convert2SeatModel(SeatInfoDto seatInfoDto) {
         SeatModel seatModel = new SeatModel();
         BeanUtils.copyProperties(seatInfoDto, seatModel);
+        if (StringUtils.equals(seatInfoDto.getSeatType(), COMMON.SEAT_TYPE_COMMON)) {
+            seatModel.setSeatTypeEnum(SeatTypeEnum.COMMON);
+        } else {
+            seatModel.setSeatTypeEnum(SeatTypeEnum.ELEGANT);
+        }
         return seatModel;
     }
 }

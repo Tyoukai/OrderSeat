@@ -13,7 +13,7 @@
                 building_id,
                 floor_id,
                 seat_type,
-                desc,
+                `desc`,
                 gmt_create,
                 gmt_modified
             )
@@ -84,7 +84,7 @@
             from  ssm_seat
         ]]>
         <include refid="search_where"/>
-        <if test="limit > 0">
+        <if test="limit != null and limit > 0">
             limit #{ start }, #{ limit }
         </if>
     </select>
